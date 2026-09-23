@@ -11,7 +11,7 @@
 | 根 link | `pelvis` |
 | link 总数 | 39 |
 | joint 总数 | 38 （revolute 31 + fixed 7） |
-| 模型总质量 | 63.272 kg |
+| 模型总质量 | 65.818 kg |
 | 长度单位 | m |
 | 角度单位 | rad |
 
@@ -83,7 +83,7 @@
 | `hip_roll_l_joint` | 52 | `hip_pitch_l_link` | `hip_roll_l_link` | `1 0 0` | -0.418879 | 2.617994 | -24 | 150 | 235 | 16.755161 |
 | `hip_yaw_l_joint` | 53 | `hip_roll_l_link` | `hip_yaw_l_link` | `0 0 1` | -1.396263 | 4.45059 | -80 | 255 | 150 | 13.823008 |
 | `knee_pitch_l_joint` | 54 | `hip_yaw_l_link` | `knee_pitch_l_link` | `0 1 0` | -0.087266 | 2.530727 | -5 | 145 | 400 | 11.100294 |
-| `ankle_pitch_l_joint` | 55 | `knee_pitch_l_link` | `ankle_pitch_l_link` | `0 1 0` | -1.22173 | 0.523599 | -70 | 30 | 55 | 14.137167 |
+| `ankle_pitch_l_joint` | 55 | `knee_pitch_l_link` | `ankle_pitch_l_link` | `0 1 0` | -1.186824 | 0.523599 | -68 | 30 | 55 | 14.137167 |
 | `ankle_roll_l_joint` | 56 | `ankle_pitch_l_link` | `ankle_roll_l_link` | `1 0 0` | -0.523599 | 0.523599 | -30 | 30 | 55 | 14.137167 |
 
 ### 右腿
@@ -94,16 +94,16 @@
 | `hip_roll_r_joint` | 62 | `hip_pitch_r_link` | `hip_roll_r_link` | `1 0 0` | -2.617994 | 0.418879 | -150 | 24 | 235 | 16.755161 |
 | `hip_yaw_r_joint` | 63 | `hip_roll_r_link` | `hip_yaw_r_link` | `0 0 1` | -4.45059 | 1.396263 | -255 | 80 | 150 | 13.823008 |
 | `knee_pitch_r_joint` | 64 | `hip_yaw_r_link` | `knee_pitch_r_link` | `0 1 0` | -0.087266 | 2.530727 | -5 | 145 | 400 | 11.100294 |
-| `ankle_pitch_r_joint` | 65 | `knee_pitch_r_link` | `ankle_pitch_r_link` | `0 1 0` | -1.22173 | 0.523599 | -70 | 30 | 55 | 14.137167 |
+| `ankle_pitch_r_joint` | 65 | `knee_pitch_r_link` | `ankle_pitch_r_link` | `0 1 0` | -1.186824 | 0.523599 | -68 | 30 | 55 | 14.137167 |
 | `ankle_roll_r_joint` | 66 | `ankle_pitch_r_link` | `ankle_roll_r_link` | `1 0 0` | -0.523599 | 0.523599 | -30 | 30 | 55 | 14.137167 |
 
 ### 腰部
 
 | 关节 | 电机 ID | 父 link | 子 link | 轴向 | 下限 (rad) | 上限 (rad) | 下限 (°) | 上限 (°) | 力矩 (N·m) | 速度 (rad/s) |
 |------|---------|---------|---------|------|-----------|-----------|----------|----------|------------|--------------|
-| `waist_yaw_joint` | 33 | `pelvis` | `waist_yaw_link` | `0 0 1` | -2.617994 | 3.228859 | -150 | 185 | 91 | 9.424778 |
+| `waist_yaw_joint` | 33 | `pelvis` | `waist_yaw_link` | `0 0 1` | -2.617994 | 3.228859 | -150 | 185 | 200 | 10.053096 |
 | `waist_roll_joint` | 32 | `waist_yaw_link` | `waist_roll_link` | `1 0 0` | -0.436332 | 0.436332 | -25 | 25 | 150 | 13.823008 |
-| `waist_pitch_joint` | 31 | `waist_roll_link` | `waist_pitch_link` | `0 1 0` | -0.523599 | 0.959931 | -30 | 55 | 150 | 13.823008 |
+| `waist_pitch_joint` | 31 | `waist_roll_link` | `waist_pitch_link` | `0 1 0` | -0.523599 | 0.872665 | -30 | 50 | 150 | 13.823008 |
 
 ### 头部
 
@@ -120,9 +120,9 @@
 | `shoulder_roll_l_joint` | 12 | `shoulder_pitch_l_link` | `shoulder_roll_l_link` | `1 0 0` | -0.191986 | 3.333579 | -11 | 191 | 90 | 7.218333 |
 | `shoulder_yaw_l_joint` | 13 | `shoulder_roll_l_link` | `shoulder_yaw_l_link` | `0 0 1` | -2.844887 | 2.844887 | -163 | 163 | 50 | 11.455294 |
 | `elbow_pitch_l_joint` | 14 | `shoulder_yaw_l_link` | `elbow_pitch_l_link` | `0 1 0` | -2.548181 | 0.191986 | -146 | 11 | 50 | 11.455294 |
-| `elbow_yaw_l_joint` | 15 | `elbow_pitch_l_link` | `elbow_yaw_l_link` | `0 0 1` | -2.844887 | 2.844887 | -163 | 163 | 25 | 12.217654 |
-| `wrist_pitch_l_joint` | 16 | `elbow_yaw_l_link` | `wrist_pitch_l_link` | `0 1 0` | -1.32645 | 1.32645 | -76 | 76 | 25 | 12.217654 |
-| `wrist_roll_l_joint` | 17 | `wrist_pitch_l_link` | `wrist_roll_l_link` | `1 0 0` | -1.32645 | 1.32645 | -76 | 76 | 25 | 12.217654 |
+| `elbow_yaw_l_joint` | 15 | `elbow_pitch_l_link` | `elbow_yaw_l_link` | `0 0 1` | -2.844887 | 2.844887 | -163 | 163 | 40 | 18.325957 |
+| `wrist_pitch_l_joint` | 16 | `elbow_yaw_l_link` | `wrist_pitch_l_link` | `0 1 0` | -1.32645 | 1.32645 | -76 | 76 | 40 | 18.325957 |
+| `wrist_roll_l_joint` | 17 | `wrist_pitch_l_link` | `wrist_roll_l_link` | `1 0 0` | -1.32645 | 1.32645 | -76 | 76 | 40 | 18.325957 |
 
 ### 右臂
 
@@ -132,9 +132,9 @@
 | `shoulder_roll_r_joint` | 22 | `shoulder_pitch_r_link` | `shoulder_roll_r_link` | `1 0 0` | -3.333579 | 0.191986 | -191 | 11 | 90 | 7.218333 |
 | `shoulder_yaw_r_joint` | 23 | `shoulder_roll_r_link` | `shoulder_yaw_r_link` | `0 0 1` | -2.844887 | 2.844887 | -163 | 163 | 50 | 11.455294 |
 | `elbow_pitch_r_joint` | 24 | `shoulder_yaw_r_link` | `elbow_pitch_r_link` | `0 1 0` | -2.548181 | 0.191986 | -146 | 11 | 50 | 11.455294 |
-| `elbow_yaw_r_joint` | 25 | `elbow_pitch_r_link` | `elbow_yaw_r_link` | `0 0 1` | -2.844887 | 2.844887 | -163 | 163 | 25 | 12.217654 |
-| `wrist_pitch_r_joint` | 26 | `elbow_yaw_r_link` | `wrist_pitch_r_link` | `0 1 0` | -1.32645 | 1.32645 | -76 | 76 | 25 | 12.217654 |
-| `wrist_roll_r_joint` | 27 | `wrist_pitch_r_link` | `wrist_roll_r_link` | `1 0 0` | -1.32645 | 1.32645 | -76 | 76 | 25 | 12.217654 |
+| `elbow_yaw_r_joint` | 25 | `elbow_pitch_r_link` | `elbow_yaw_r_link` | `0 0 1` | -2.844887 | 2.844887 | -163 | 163 | 40 | 18.325957 |
+| `wrist_pitch_r_joint` | 26 | `elbow_yaw_r_link` | `wrist_pitch_r_link` | `0 1 0` | -1.32645 | 1.32645 | -76 | 76 | 40 | 18.325957 |
+| `wrist_roll_r_joint` | 27 | `wrist_pitch_r_link` | `wrist_roll_r_link` | `1 0 0` | -1.32645 | 1.32645 | -76 | 76 | 40 | 18.325957 |
 
 ## 3. fixed（固定）关节表
 

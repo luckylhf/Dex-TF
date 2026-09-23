@@ -5,10 +5,19 @@
 
 ## [未发布]
 
+### 已变更
+- **模型参数对齐天工行者 Dex V3**
+  - `urdf/tiangong3.urdf` 与 `urdf/tiangong3.urdf.xacro` 的 39 个 link
+    （质量 / 质心 / 惯量）与 31 个 revolute 关节（下限 / 上限 / 力矩 / 速度）
+    统一按 `关键参数/URDF关键参数表 - 天工行者Dex(V3).csv` 更新
+  - 两份模型文件自此除根标签外完全一致（原 20 个关节的限位差异已消除）
+  - 模型总质量 63.272 kg → 65.818 kg
+  - 同步更新 `scripts/validate.py`、`docs/model.md`、`docs/joints.md`
+
 ### 计划中
 - 接入灵巧手 URDF link（启用 `meshes_hand/`）
 - 关节限位、超时阈值、速度/电流上限改为 ROS 参数
-- xacro 宏参数化，消除两份模型文件的不一致
+- xacro 宏参数化（两份模型文件已统一，剩余为宏化重构）
 - Gazebo / MuJoCo 仿真描述
 - 单元测试（URDF 完整性、ID 映射一致性）
 

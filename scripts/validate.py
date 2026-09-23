@@ -60,7 +60,7 @@ EXPECTED_JOINTS = 38
 EXPECTED_REVOLUTE = 31
 EXPECTED_MESHES = 39
 EXPECTED_HAND_MESHES = 26
-EXPECTED_MASS_KG = 63.272
+EXPECTED_MASS_KG = 65.818
 EXPECTED_MOTOR_IDS = 31
 
 # 版权主体（真实权利人）
@@ -592,12 +592,12 @@ def check_model_pair():
                f'{len(sig_u)} 项结构定义（link/joint/origin/axis/inertial/'
                f'mesh）完全相同')
 
-    # 2) 限位差异数量
+    # 2) 限位差异数量（两份模型已统一对齐同一套参数，期望 0）
     changed = {k: (lim_u[k], lim_x[k]) for k in lim_u
                if k in lim_x and lim_u[k] != lim_x[k]}
-    if len(changed) != 20:
+    if len(changed) != 0:
         report('WARN', '两模型限位差异数量',
-               f'实际 {len(changed)} 个，docs/model.md 中记载 20 个')
+               f'实际 {len(changed)} 个，期望两份模型完全一致（0 个）')
 
     # 3) .urdf 必须比 .xacro 更保守（收紧）或相等，不得更宽松
     looser = [k for k, (u, x) in changed.items()
@@ -608,7 +608,7 @@ def check_model_pair():
     else:
         report('PASS', '两模型限位安全性',
                f'{len(changed)} 个关节的 .urdf 限位不宽于 .xacro'
-               f'（对应两代机型参数，见 docs/model.md §3.2）')
+               f'（两份模型已统一，见 docs/model.md §3）')
 
     # 4) docs/model.md 中的差异表必须与实测一致
     doc_path = os.path.join(REPO_ROOT, 'docs', 'model.md')

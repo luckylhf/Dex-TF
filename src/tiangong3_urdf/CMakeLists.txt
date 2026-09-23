@@ -25,7 +25,7 @@ endif()
 
 
 install(
-  DIRECTORY launch urdf meshes meshes_hand config scripts
+  DIRECTORY launch urdf meshes meshes_hand config scripts "关键参数"
   DESTINATION share/${PROJECT_NAME}
 )
 
