@@ -2,6 +2,7 @@
 
 **包名：`tiangong3_urdf`** ｜ 工作空间：`Dex-TF`
 
+[![CI](https://github.com/luckylhf/Dex-TF/actions/workflows/ci.yml/badge.svg)](https://github.com/luckylhf/Dex-TF/actions/workflows/ci.yml)
 [![ROS 2](https://img.shields.io/badge/ROS%202-Humble-22314E?logo=ros&logoColor=white)](https://docs.ros.org/en/humble/)
 [![Platform](https://img.shields.io/badge/Ubuntu-22.04%20%7C%20x86__64-E95420?logo=ubuntu&logoColor=white)](https://releases.ubuntu.com/22.04/)
 [![Python](https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white)](https://www.python.org/)
