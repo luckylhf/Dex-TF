@@ -11,7 +11,7 @@
 [![Model Assets](https://img.shields.io/badge/Model%20Assets-Proprietary-orange.svg)](NOTICE)
 [![Status](https://img.shields.io/badge/Model-EVT2-yellow.svg)](CHANGELOG.md)
 
-天工 Dex（Tiangong Dex）人形机器人的 **ROS 2 描述、可视化与遥操作调试工具链**。
+天工 Dex（Walker Tienkung Dex）人形机器人的 **ROS 2 描述、可视化与遥操作调试工具链**。
 
 > ## ⚠️ 安全提示
 > 本项目包含**可向真实机器人下发运动指令**的交互界面。

@@ -10,7 +10,7 @@
 [![Model Assets](https://img.shields.io/badge/Model%20Assets-Proprietary-orange.svg)](NOTICE)
 
 ROS 2 description, visualization and teleoperation tooling for the
-**Tiangong Dex** humanoid robot.
+**Walker Tienkung Dex** humanoid robot.
 
 > 🇨🇳 中文完整文档请见 [`README.md`](README.md) — this English document is a
 > condensed translation; the Chinese README is the primary reference.
