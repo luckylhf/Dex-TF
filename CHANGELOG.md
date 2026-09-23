@@ -128,7 +128,8 @@
 ### 移除
 
 - `.claude/settings.local.json`（本地 AI 工具会话配置）
-- `src/bodyctrl_msgs/.gitlab-ci.yml`（内部 GitLab CI 配置，含内网镜像地址）
+- `src/bodyctrl_msgs/.gitlab-ci.yml`（上游内部 CI 配置，本项目改用
+  `.github/workflows/ci.yml`）
 - `__pycache__/`、`.DS_Store` 等非源码文件
 - 打包快照 `ros_dex_tf.v0.1.zip` 移出版本控制（改用 Release 附件）
 
