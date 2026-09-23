@@ -79,19 +79,6 @@ jobs:
           command -v ros2 >/dev/null || { echo "ros2 未安装"; exit 1; }
           echo "rosdep 依赖安装完成 (ROS_DISTRO=${ROS_DISTRO})"
 
-      - name: 验证 Python 依赖可导入（GUI 链路）
-        shell: bash
-        run: |
-          source /opt/ros/humble/setup.bash
-          source install/setup.bash
-          # python_qt_binding 模块由 ros-humble-python-qt-binding 提供，
-          # 仅装 python3-pyqt5 会 MissingModule —— 这里显式验证
-          python3 -c "import rclpy, numpy; print('rclpy/numpy OK')"
-          python3 -c "from ament_index_python.packages import get_package_share_directory as g; print('ament_index_python OK', bool(g))"
-          python3 -c "from python_qt_binding import QtWidgets, QtCore; print('python_qt_binding OK, Qt', QtCore.qVersion())"
-          python3 -c "import bodyctrl_msgs.msg; print('bodyctrl_msgs 接口可导入 OK')"
-          python3 -c "import ast, pathlib; [ast.parse(pathlib.Path(f).read_text(encoding='utf-8')) for f in ['src/tiangong3_urdf/scripts/interactive_gui.py','src/tiangong3_urdf/scripts/joint_state_publisher.py']]; print('两个节点脚本解析 OK')"
-
       - name: colcon build
         shell: bash
         run: |
@@ -115,6 +102,21 @@ jobs:
           n=$(ls "$(ros2 pkg prefix tiangong3_urdf)/share/tiangong3_urdf/meshes"/*.STL | wc -l)
           echo "meshes: ${n}"
           test "${n}" -eq 39
+
+      # 注意：本步骤必须在 colcon build 之后 —— 它要 source install/setup.bash
+      # 并 import bodyctrl_msgs.msg（构建后才存在）。
+      - name: 验证 Python 依赖可导入（GUI 链路）
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          source install/setup.bash
+          # python_qt_binding 模块由 ros-humble-python-qt-binding 提供，
+          # 仅装 python3-pyqt5 会 ModuleNotFoundError —— 这里显式验证
+          python3 -c "import rclpy, numpy; print('rclpy/numpy OK')"
+          python3 -c "from ament_index_python.packages import get_package_share_directory as g; print('ament_index_python OK', bool(g))"
+          python3 -c "from python_qt_binding import QtWidgets, QtCore; print('python_qt_binding OK, Qt', QtCore.qVersion())"
+          python3 -c "import bodyctrl_msgs.msg; print('bodyctrl_msgs 接口可导入 OK')"
+          python3 -c "import ast, pathlib; [ast.parse(pathlib.Path(f).read_text(encoding='utf-8')) for f in ['src/tiangong3_urdf/scripts/interactive_gui.py','src/tiangong3_urdf/scripts/joint_state_publisher.py']]; print('两个节点脚本解析 OK')"
 
       - name: xacro 解析检查
         shell: bash
