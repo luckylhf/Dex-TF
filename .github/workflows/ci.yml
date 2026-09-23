@@ -59,11 +59,24 @@ jobs:
           required-ros-distributions: humble
 
       - name: 安装包依赖（rosdep）
+        shell: bash
         run: |
+          # 必须先 source ROS：否则 ROS_DISTRO 未设置，rosdep 无法解析任何
+          # rosdep key（日志表现为 "Cannot locate rosdep definition for
+          # [ament_cmake]"），而且配合 -r 时【不会】让步骤失败，导致
+          # 依赖其实一个都没装却显示成功。
+          source /opt/ros/humble/setup.bash
+          if [ -z "${ROS_DISTRO}" ]; then
+            echo "ROS_DISTRO 未设置，rosdep 将无法解析依赖"; exit 1
+          fi
           sudo rosdep init 2>/dev/null || true
           rosdep update
           rosdep install --from-paths src --ignore-src -r -y \
             --skip-keys "python_qt_binding python3-pyqt5"
+          # 显式校验 launch 链路所需的可执行文件确实存在
+          command -v xacro >/dev/null || { echo "xacro 未安装"; exit 1; }
+          command -v ros2 >/dev/null || { echo "ros2 未安装"; exit 1; }
+          echo "rosdep 依赖安装完成 (ROS_DISTRO=${ROS_DISTRO})"
 
       - name: colcon build
         shell: bash
