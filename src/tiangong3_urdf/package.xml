@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>tiangong3_urdf</name>
+  <version>0.1.0</version>
+  <description>
+    Tiangong Dex 人形机器人描述与可视化工具包：URDF/Xacro 模型、RViz 配置、
+    Launch 文件、真机状态桥接节点与交互式关节控制 GUI。
+    Robot description, visualization and teleoperation tooling for the
+    Tiangong Dex humanoid robot.
+
+    命名说明: 包名 tiangong3_urdf 为统一命名规范代次，内嵌模型数据
+    (URDF 结构 / 惯量 / 网格几何) 仍为天工 2 Dex EVT2，上游来源为
+    Open-X-Humanoid/TienKung_URDF 的 tiangong2dex_urdf 目录。
+    NOTE: the "3" is a naming-convention generation, NOT the hardware version.
+  </description>
+  <maintainer email="hongfeng.long@ubtrobot.com">Walker Tienkung Dex Maintainers</maintainer>
+  <license>Apache-2.0</license>
+  <!--
+    注意: 本包中的 URDF 模型与 meshes/ 网格资产不在 Apache-2.0 授权范围内，
+    详见仓库根目录的 NOTICE 文件（含命名与溯源记录）。
+
+    ⚠️ 同名的外部 ROS 包 Dex-URDF/Tienkung_Dex_Model_All (天工 3.0 Dex V3 资源包)
+    的 <name> 也是 tiangong3_urdf，请勿与本包放入同一 colcon 工作空间。
+  -->
+  <url type="website">https://github.com/luckylhf/Dex-TF</url>
+  <url type="bugtracker">https://github.com/luckylhf/Dex-TF/issues</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>joint_state_publisher_gui</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>bodyctrl_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>python_qt_binding</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

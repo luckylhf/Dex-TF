@@ -1,0 +1,134 @@
+# NOTICE / 第三方与专有资产声明
+
+Tiangong Dex ROS 2 工具链（以下简称"本项目"）
+
+---
+
+## 1. 软件代码
+
+本项目的**源代码**（`src/` 下的 ROS 2 包、Python 节点、Launch 文件、
+配置文件、文档与脚本）采用 **Apache License 2.0** 授权，详见 `LICENSE`。
+
+```
+Copyright 2026 Walker Tienkung Dex Project Contributors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+```
+
+## 2. 机器人模型与三维网格资产（重要）
+
+以下目录中的文件**不属于**开源代码，不受 Apache-2.0 授权覆盖：
+
+| 路径 | 内容 | 说明 |
+|------|------|------|
+| `src/tiangong3_urdf/urdf/` | URDF / Xacro 模型定义 | 由机器人整机 CAD 导出，含结构参数与惯量数据 |
+| `src/tiangong3_urdf/meshes/` | 本体 39 个 STL 网格 | 简化版本，用于可视化与碰撞检测 |
+| `src/tiangong3_urdf/meshes_hand/` | 灵巧手 26 个 STL 网格 | 预留资产，当前模型未引用 |
+
+这些资产是**机器人整机的结构参数与外观设计**，其知识产权归原始权利人
+（机器人研制方 / 本项目上游仓库 `tiangong/ros_dex_tf` 所属组织）所有。
+它们在本项目中仅用于：
+
+- 机器人状态可视化与运动学计算；
+- 与真实机器人通信时的接口对齐；
+- 研究与开发用途的参考。
+
+**任何使用者与再发布者必须自行确认**：其使用、复制、修改、公开传播
+（包括发布到 GitHub 等公开平台）上述模型资产的行为，已获得权利人的
+合法授权。若未获得授权，请仅保留 `src/` 下的源代码，或改用自行
+获取/自建的机器人模型，并移除上述目录。
+
+## 3. 消息与服务定义
+
+`src/bodyctrl_msgs/` 中的 `.msg` / `.srv` 接口定义描述了机器人厂商的
+**通信协议规格**，用于与机器人本体控制器通信。其使用同样应遵守
+机器人厂商的相关条款。
+
+## 4. 第三方依赖
+
+本项目在编译与运行时依赖以下开源组件，它们各自遵循其原始许可证：
+
+| 依赖 | 许可证 |
+|------|--------|
+| ROS 2 (rclpy / rclcpp / rviz2 / robot_state_publisher / xacro) | Apache-2.0 |
+| `joint_state_publisher` / `joint_state_publisher_gui` | BSD-3-Clause |
+| NumPy | BSD-3-Clause |
+| PyQt5 / Qt 绑定（`python_qt_binding`） | GPL-3.0 / LGPL-3.0（以 Qt 官方条款为准） |
+| Eigen（经由 ROS 依赖间接引入） | MPL-2.0 |
+
+> 注意：PyQt5 采用 GPL-3.0 授权（商业授权可另行获取）。若需以非 GPL
+> 兼容条款发布包含本 GUI 的**二进制分发**，请自行确认授权合规性；
+> 以源代码形式发布并依赖系统提供的 `python3-pyqt5` 通常不受影响。
+
+## 5. 命名与溯源
+
+### 5.1 包名变更记录
+
+| 项目 | 变更 |
+|------|------|
+| ROS 2 包名 | `tiangong2dex_urdf` → **`tiangong3_urdf`** |
+| URDF 文件 | `tiangong2dex.urdf` / `.urdf.xacro` → **`tiangong3.urdf` / `.urdf.xacro`** |
+| URDF `<robot name>` | `tiangong2dex_urdf` → **`tiangong3_urdf`** |
+| mesh URI 前缀 | `package://tiangong2dex_urdf/` → **`package://tiangong3_urdf/`**（78 处） |
+| 演示视频 | `tiangong2dex_joint_control_demo.mp4` → `tiangong3_joint_control_demo.mp4` |
+
+变更动机：与天工 Dex 生态的统一命名对齐（同目录 `Dex-URDF/Tienkung_Dex_Model_All`
+的天工 3.0 Dex V3 资源包同样使用 `package://tiangong3_urdf/...`）。
+
+### 5.2 追溯信息（请勿删除）
+
+本次重命名**仅涉及标识符**，模型数据未做任何修改。为避免溯源链断裂，
+特此记录原始来源：
+
+```
+上游仓库:   Open-X-Humanoid/TienKung_URDF
+上游目录:   tiangong2dex_urdf
+上游提交:   5c221783fb92fcc4af891ef1dc0502963caf2266
+来源工作空间: tiangong/ros_dex_tf (GitLab, 内部)
+对应机型:   天工 2 Dex (EVT2)
+```
+
+**重要**：本仓库当前的 URDF 结构、惯量参数与网格几何均为**天工 2 Dex EVT2** 数据，
+包名中的 "3" 表示**命名规范代次**，不代表模型数据已升级到天工 3 Dex。
+使用或再发布时请勿据此推断硬件版本。
+
+若需接入真正的天工 3 Dex 模型，见
+[`docs/model.md`](docs/model.md#命名与模型数据来源)；两代机型的 link/joint 命名
+集合完全相同（39 links / 38 joints），因此替换 URDF 与 meshes 即可，无需改动代码。
+
+### 5.3 对衍生项目的影响
+
+- `Dex-IK` 已将本模型派生为 `dex_description`（mesh URI 亦改为 `package://dex_description/`），
+  **不受本次重命名影响**；
+- 任何按 `package://tiangong2dex_urdf/...` 引用网格或 `<depend>tiangong2dex_urdf</depend>`
+  的下游包，**必须同步更新**，否则编译或网格加载会失败。
+
+---
+
+### 版权主体
+
+本项目的版权行已填写为：
+
+```
+Copyright 2026 Walker Tienkung Dex Project Contributors
+```
+
+如需变更权利人名称或年份，请**同步**修改以下位置，`scripts/validate.py`
+会自动校验是否一致、是否存在占位残留：
+
+| 位置 | 内容 |
+|------|------|
+| `LICENSE` | 文件末尾的版权行 |
+| `NOTICE`（本文件） | §1 软件代码 |
+| `README.md` / `README.en.md` | 许可证章节 |
+| `run.sh`、`scripts/build.sh`、`scripts/release.sh`、`scripts/validate.py`、`scripts/gen_joint_docs.py` | 文件头版权声明 |
+| `CONTRIBUTING.md` | 新增源码文件的版权头示例 |
+| `scripts/validate.py` | `COPYRIGHT_HOLDER` 常量（校验用基准） |
+
+> `src/*/package.xml` 中的 `<license>` 已是 `Apache-2.0`；
+> `<maintainer>` 为**联系人**字段（非版权主体），当前填写为
+> `Walker Tienkung Dex Maintainers`（与版权主体一致），邮箱按需调整。

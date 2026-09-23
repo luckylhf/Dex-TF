@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # 1. 静态检查：Python 语法、文档一致性
+  # ---------------------------------------------------------------------------
+  lint:
+    name: 静态检查
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 安装校验依赖
+        run: |
+          python3 -m pip install --quiet --upgrade pip
+          python3 -m pip install --quiet \
+            trimesh numpy lxml xmlschema pyyaml
+
+      - name: 发布包完整性校验
+        run: python3 scripts/validate.py -v
+
+      - name: Python 语法检查
+        run: |
+          python3 -m py_compile \
+            src/tiangong3_urdf/scripts/joint_state_publisher.py \
+            src/tiangong3_urdf/scripts/interactive_gui.py \
+            scripts/gen_joint_docs.py scripts/validate.py
+
+      - name: Shell 脚本语法检查
+        run: |
+          bash -n run.sh
+          bash -n scripts/build.sh
+          bash -n scripts/release.sh
+
+  # ---------------------------------------------------------------------------
+  # 2. 构建检查：ROS 2 Humble 下 colcon build
+  # ---------------------------------------------------------------------------
+  build:
+    name: 构建 (ROS 2 Humble)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装 ROS 2 Humble 及依赖
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+
+      - name: 安装包依赖（rosdep）
+        run: |
+          sudo rosdep init 2>/dev/null || true
+          rosdep update
+          rosdep install --from-paths src --ignore-src -r -y \
+            --skip-keys "python_qt_binding python3-pyqt5"
+
+      - name: colcon build
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          colcon build --symlink-install \
+            --event-handlers console_direct+ \
+            --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+      - name: 校验安装产物完整性
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          source install/setup.bash
+          set -e
+          ros2 pkg prefix tiangong3_urdf
+          ros2 pkg prefix bodyctrl_msgs
+          test -f "$(ros2 pkg prefix tiangong3_urdf)/share/tiangong3_urdf/urdf/tiangong3.urdf"
+          test -f "$(ros2 pkg prefix tiangong3_urdf)/share/tiangong3_urdf/config/display.rviz"
+          test -d "$(ros2 pkg prefix tiangong3_urdf)/share/tiangong3_urdf/meshes"
+          # 校验 39 个网格是否齐全
+          n=$(ls "$(ros2 pkg prefix tiangong3_urdf)/share/tiangong3_urdf/meshes"/*.STL | wc -l)
+          echo "meshes: ${n}"
+          test "${n}" -eq 39
+
+      - name: xacro 解析检查
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          xacro src/tiangong3_urdf/urdf/tiangong3.urdf.xacro > /tmp/model.urdf
+          grep -c '<link' /tmp/model.urdf
+          grep -c '<joint' /tmp/model.urdf
+
+      - name: launch 文件可被 Python 解析
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          source install/setup.bash
+          python3 -m py_compile src/tiangong3_urdf/launch/*.launch.py

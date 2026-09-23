@@ -1,0 +1,31 @@
+# 统一使用 LF 行尾（ROS 2 在 Linux 下运行）
+* text=auto eol=lf
+
+# 明确文本类型
+*.py     text diff=python
+*.md     text diff=markdown
+*.xml    text
+*.xacro  text
+*.urdf   text
+*.launch text
+*.yaml   text
+*.yml    text
+*.rviz   text
+*.msg    text
+*.srv    text
+*.sh     text eol=lf
+
+# 二进制资产：禁止行尾转换与文本 diff
+*.STL    binary
+*.stl    binary
+*.dae    binary
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.mp4    binary
+*.zip    binary
+
+# GitHub 语言统计：3D 网格不计入代码量
+src/tiangong3_urdf/meshes/**      linguist-vendored
+src/tiangong3_urdf/meshes_hand/** linguist-vendored
+docs/assets/**                       linguist-documentation
