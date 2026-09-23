@@ -80,6 +80,17 @@
     `0.0 rad` 换算成**归一化 1.0（双手完全张开）**发给真机，属非预期指令
   - 移除 `cmd.spd = 0.2  # 0.2 rad/s` 的单位断言（与协议注释矛盾），
     改为指向 `.msg` 的协议定义
+- **修复 GUI 依赖文档缺口**（新人按文档安装会踩坑）：`interactive_gui.py`
+  使用的 `python_qt_binding` 模块由 **`ros-humble-python-qt-binding`** 提供，
+  而 README 手动清单里只有 `python3-pyqt5`（后者仅是它的依赖之一）→
+  照单安装会报 `ModuleNotFoundError: No module named 'python_qt_binding'`。
+  已补入 `ros-humble-python-qt-binding`、`ros-humble-rclpy`、
+  `ros-humble-ament-index-python`、`ros-humble-rosidl-default-runtime`，
+  并加显式警告；`README.en.md`、`docs/usage.md` 排错表同步更新
+- CI：rosdep 步骤移除 `--skip-keys "python_qt_binding python3-pyqt5"`
+  （原先跳过了 Qt 依赖，导致 GUI 链路从未被 CI 验证），
+  新增「验证 Python 依赖可导入（GUI 链路）」步骤，显式 import
+  `rclpy` / `ament_index_python` / `python_qt_binding` / `bodyctrl_msgs`
 - 文档同步：`README.md`（GUI 功能表、演示示意图、FAQ Q5、已知限制表）、
   `docs/usage.md`（分组表 §5.2、手部章节 §5.3、排错 §9.3/§9.4）、
   `docs/protocol.md`（§2 `spd` 单位、§3.2 特点表、§4 手部、§5 话题表）、

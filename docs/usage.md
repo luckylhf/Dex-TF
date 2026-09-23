@@ -266,7 +266,9 @@ ros2 bag info my_run
 | `Package 'tiangong3_urdf' not found` | 未 source 工作空间 | `source install/setup.bash` |
 | `executable 'joint_state_publisher.py' not found` | 未编译或未安装脚本 | `colcon build --symlink-install` |
 | `ModuleNotFoundError: bodyctrl_msgs` | `bodyctrl_msgs` 未编译成功 | 查看 `log/latest_build/bodyctrl_msgs` |
-| `ModuleNotFoundError: PyQt5` | 缺少 Qt 绑定 | `sudo apt install python3-pyqt5` |
+| `ModuleNotFoundError: No module named 'python_qt_binding'` | 只装了 `python3-pyqt5`；`python_qt_binding` 模块由 ROS 包提供 | `sudo apt install ros-humble-python-qt-binding` |
+| `ModuleNotFoundError: PyQt5` | 缺少底层 Qt 绑定（`ros-humble-python-qt-binding` 会自动带上） | `sudo apt install python3-pyqt5` |
+| `ModuleNotFoundError: No module named 'ament_index_python'` / `'rclpy'` | ROS 环境未 source 或依赖不全 | `source /opt/ros/humble/setup.bash`；必要时 `sudo apt install ros-humble-ament-index-python ros-humble-rclpy` |
 | `xacro: command not found` | 缺少 xacro | `sudo apt install ros-humble-xacro` |
 
 ### 9.2 显示类

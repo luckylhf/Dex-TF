@@ -81,7 +81,9 @@ Robot ──(bodyctrl_msgs topics)──> bridge ──(JointState)──> robot
 ## Requirements
 
 - Ubuntu 22.04 LTS, **ROS 2 Humble**
-- Python 3.10, `python3-pyqt5`, `python3-numpy`
+- Python 3.10, `python3-numpy`
+- `ros-humble-python-qt-binding` — provides the `python_qt_binding` module used by
+  the GUI (`python3-pyqt5` alone is **not** enough)
 - Same DDS domain / network segment as the robot for real-robot use
 - OpenGL 3.3+ capable GPU (RViz + Qt GUI)
 

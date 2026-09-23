@@ -71,12 +71,26 @@ jobs:
           fi
           sudo rosdep init 2>/dev/null || true
           rosdep update
-          rosdep install --from-paths src --ignore-src -r -y \
-            --skip-keys "python_qt_binding python3-pyqt5"
+          # 不加 --skip-keys：让 CI 按 package.xml 装齐全部依赖，
+          # 与 README 文档给用户的方式保持一致（含 python_qt_binding）
+          rosdep install --from-paths src --ignore-src -r -y
           # 显式校验 launch 链路所需的可执行文件确实存在
           command -v xacro >/dev/null || { echo "xacro 未安装"; exit 1; }
           command -v ros2 >/dev/null || { echo "ros2 未安装"; exit 1; }
           echo "rosdep 依赖安装完成 (ROS_DISTRO=${ROS_DISTRO})"
+
+      - name: 验证 Python 依赖可导入（GUI 链路）
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          source install/setup.bash
+          # python_qt_binding 模块由 ros-humble-python-qt-binding 提供，
+          # 仅装 python3-pyqt5 会 MissingModule —— 这里显式验证
+          python3 -c "import rclpy, numpy; print('rclpy/numpy OK')"
+          python3 -c "from ament_index_python.packages import get_package_share_directory as g; print('ament_index_python OK', bool(g))"
+          python3 -c "from python_qt_binding import QtWidgets, QtCore; print('python_qt_binding OK, Qt', QtCore.qVersion())"
+          python3 -c "import bodyctrl_msgs.msg; print('bodyctrl_msgs 接口可导入 OK')"
+          python3 -c "import ast, pathlib; [ast.parse(pathlib.Path(f).read_text(encoding='utf-8')) for f in ['src/tiangong3_urdf/scripts/interactive_gui.py','src/tiangong3_urdf/scripts/joint_state_publisher.py']]; print('两个节点脚本解析 OK')"
 
       - name: colcon build
         shell: bash

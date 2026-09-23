@@ -272,9 +272,22 @@ sudo apt install -y \
   ros-humble-visualization-msgs \
   ros-humble-geometry-msgs \
   ros-humble-std-msgs \
-  python3-pyqt5 \
+  ros-humble-rclpy \
+  ros-humble-ament-index-python \
+  ros-humble-rosidl-default-runtime \
+  ros-humble-python-qt-binding \
   python3-numpy
 ```
+
+> ⚠️ **`ros-humble-python-qt-binding` 不能省**：`interactive_gui.py` 里
+> `from python_qt_binding.QtWidgets import ...` 所需的 **`python_qt_binding`
+> 模块由该 ROS 包提供**，仅安装 `python3-pyqt5` 是不够的（后者只是它的依赖之一），
+> 否则启动 GUI 会报
+> `ModuleNotFoundError: No module named 'python_qt_binding'`。
+>
+> 以上是本仓库声明的**最小依赖集**；`ros-humble-desktop` 已包含其中大部分，
+> 用 §7.1 的方式安装通常无需再逐条装。优先使用上面的 `rosdep` 方式，
+> 它会自动按 `package.xml` 解析出完整依赖。
 
 ### 7.3 编译工作空间
 
